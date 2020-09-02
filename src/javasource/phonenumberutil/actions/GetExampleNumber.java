@@ -16,18 +16,16 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 
 /**
- * Attempt to format a number and return it in the correct format. If a number can't be parsed then Empty is returned.
+ * Gets a valid number for the specified region. Returns empty if there is invalid data or code 001 is passed.
  */
-public class ParseAndFormat extends CustomJavaAction<java.lang.String>
+public class GetExampleNumber extends CustomJavaAction<java.lang.String>
 {
-	private java.lang.String InputPhoneNumber;
 	private java.lang.String RegionCode;
 	private phonenumberutil.proxies.Format Format;
 
-	public ParseAndFormat(IContext context, java.lang.String InputPhoneNumber, java.lang.String RegionCode, java.lang.String Format)
+	public GetExampleNumber(IContext context, java.lang.String RegionCode, java.lang.String Format)
 	{
 		super(context);
-		this.InputPhoneNumber = InputPhoneNumber;
 		this.RegionCode = RegionCode;
 		this.Format = Format == null ? null : phonenumberutil.proxies.Format.valueOf(Format);
 	}
@@ -37,11 +35,8 @@ public class ParseAndFormat extends CustomJavaAction<java.lang.String>
 	{
 		// BEGIN USER CODE
 		PhoneNumberUtil pnu = PhoneNumberUtil.getInstance();
-		PhoneNumber phoneNumber = pnu.parse(this.InputPhoneNumber, this.RegionCode);
-		if (!(pnu.isValidNumber(phoneNumber))) {
-			return null;
-		}
-		return pnu.format(phoneNumber, PhoneNumberFormat.valueOf(this.Format.toString()));
+		PhoneNumber phoneNumber = pnu.getInvalidExampleNumber(this.RegionCode);
+		return pnu.format(phoneNumber, PhoneNumberFormat.valueOf(this.Format.toString()));			
 		// END USER CODE
 	}
 
@@ -51,7 +46,7 @@ public class ParseAndFormat extends CustomJavaAction<java.lang.String>
 	@java.lang.Override
 	public java.lang.String toString()
 	{
-		return "ParseAndFormat";
+		return "GetExampleNumber";
 	}
 
 	// BEGIN EXTRA CODE

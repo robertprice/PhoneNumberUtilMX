@@ -13,35 +13,29 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 
 /**
- * Attempt to format a number and return it in the correct format. If a number can't be parsed then Empty is returned.
+ * Tests whether a phone number is valid for a certain region. Note this doesn't verify the number is actually in use, which is impossible to tell by just looking at a number itself. If the country calling code is not the same as the country calling code for the region, this immediately exits with false. After this, the specific number pattern rules for the region are examined. This is useful for determining for example whether a particular number is valid for Canada, rather than just a valid NANPA number.
  */
-public class ParseAndFormat extends CustomJavaAction<java.lang.String>
+public class IsValidNumber extends CustomJavaAction<java.lang.Boolean>
 {
 	private java.lang.String InputPhoneNumber;
 	private java.lang.String RegionCode;
-	private phonenumberutil.proxies.Format Format;
 
-	public ParseAndFormat(IContext context, java.lang.String InputPhoneNumber, java.lang.String RegionCode, java.lang.String Format)
+	public IsValidNumber(IContext context, java.lang.String InputPhoneNumber, java.lang.String RegionCode)
 	{
 		super(context);
 		this.InputPhoneNumber = InputPhoneNumber;
 		this.RegionCode = RegionCode;
-		this.Format = Format == null ? null : phonenumberutil.proxies.Format.valueOf(Format);
 	}
 
 	@java.lang.Override
-	public java.lang.String executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		PhoneNumberUtil pnu = PhoneNumberUtil.getInstance();
 		PhoneNumber phoneNumber = pnu.parse(this.InputPhoneNumber, this.RegionCode);
-		if (!(pnu.isValidNumber(phoneNumber))) {
-			return null;
-		}
-		return pnu.format(phoneNumber, PhoneNumberFormat.valueOf(this.Format.toString()));
+		return pnu.isValidNumber(phoneNumber);
 		// END USER CODE
 	}
 
@@ -51,7 +45,7 @@ public class ParseAndFormat extends CustomJavaAction<java.lang.String>
 	@java.lang.Override
 	public java.lang.String toString()
 	{
-		return "ParseAndFormat";
+		return "IsValidNumber";
 	}
 
 	// BEGIN EXTRA CODE
