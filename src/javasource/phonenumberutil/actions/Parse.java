@@ -41,8 +41,16 @@ public class Parse extends CustomJavaAction<IMendixObject>
 		MxPN.setExtension(phoneNumber.getExtension());
 		MxPN.setNationalNumber(phoneNumber.getNationalNumber());
 		MxPN.setNumberOfLeadingZeros(phoneNumber.getNumberOfLeadingZeros());
-		MxPN.setPreferredDomesticCarriedCode(phoneNumber.getPreferredDomesticCarrierCode());
+		MxPN.setPreferredDomesticCarrierCode(phoneNumber.getPreferredDomesticCarrierCode());
 		MxPN.setRawInput(phoneNumber.getRawInput());
+		MxPN.setHasCountryCode(phoneNumber.hasCountryCode());
+		MxPN.setHasExtension(phoneNumber.hasExtension());
+		MxPN.setHasNationalNumber(phoneNumber.hasNationalNumber());
+		MxPN.setHasNumberOfLeadingZeros(phoneNumber.hasNumberOfLeadingZeros());
+		MxPN.setHasPreferredDomesticCarrierCode(phoneNumber.hasPreferredDomesticCarrierCode());
+		MxPN.setHasRawInput(phoneNumber.hasRawInput());
+		MxPN.setIsItalianLeadingZero(phoneNumber.isItalianLeadingZero());
+
 		return MxPN.getMendixObject();
 		// END USER CODE
 	}
