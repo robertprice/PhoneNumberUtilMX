@@ -36,7 +36,7 @@ public class GetInvalidExampleNumber extends CustomJavaAction<java.lang.String>
 		// BEGIN USER CODE
 		PhoneNumberUtil pnu = PhoneNumberUtil.getInstance();
 		PhoneNumber phoneNumber = pnu.getExampleNumber(this.RegionCode);
-		return pnu.format(phoneNumber, PhoneNumberFormat.valueOf(this.Format.toString()));		
+		return pnu.format(phoneNumber, PhoneNumberFormat.valueOf(this.Format.toString()));	
 		// END USER CODE
 	}
 
